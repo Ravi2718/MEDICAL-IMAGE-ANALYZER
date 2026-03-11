@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Image Analyzer - AI Medical Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <i class="fas fa-stethoscope"></i>
+                <span>Medical Image Analyzer</span>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#upload">Upload</a></li>
+                <li><a href="#info">About</a></li>
+                <li><a href="#disclaimer">Disclaimer</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Medical Image Analysis Platform</h1>
+                <p>Upload medical images for AI-powered analysis</p>
+                <div class="disclaimer-banner">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>IMPORTANT:</strong> This tool provides AI-based analysis for <strong>educational purposes only</strong>. 
+                    It is <strong>NOT a replacement for professional medical advice</strong>. 
+                    Always consult a qualified healthcare professional.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section" id="upload">
+        <div class="container">
+            <h2>Upload Medical Image</h2>
+            
+            <div class="upload-box">
+                <div class="drop-zone" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drop image here or click to upload</h3>
+                    <p>Supported formats: PNG, JPG, JPEG, GIF, BMP, TIFF (Max 25MB)</p>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <div class="file-info" id="fileInfo" style="display: none;">
+                <p><strong>Selected File:</strong> <span id="fileName"></span></p>
+                <p><strong>File Size:</strong> <span id="fileSize"></span></p>
+            </div>
+
+            <button class="btn-primary" id="analyzeBtn" style="display: none;">
+                <i class="fas fa-flask"></i> Analyze Image
+            </button>
+        </div>
+    </section>
+
+    <!-- Loading Section -->
+    <section class="loading-section" id="loadingSection" style="display: none;">
+        <div class="container">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Analyzing your medical image...</p>
+                <p class="text-muted">This may take a few moments</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection" style="display: none;">
+        <div class="container">
+            <div class="results-header">
+                <h2>Analysis Results</h2>
+                <button class="btn-secondary" onclick="resetUpload()">Analyze Another Image</button>
+            </div>
+
+            <div class="results-grid">
+                <!-- Image Preview -->
+                <div class="result-card">
+                    <h3>Uploaded Image</h3>
+                    <img id="resultImage" src="" alt="Uploaded image" class="result-image">
+                    <p class="text-muted" id="uploadTime"></p>
+                </div>
+
+                <!-- Analysis Results -->
+                <div class="result-card">
+                    <h3>Analysis Type</h3>
+                    <div class="analysis-content">
+                        <div id="analysisResults"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Analysis -->
+            <div class="result-card full-width">
+                <h3>Detailed Findings</h3>
+                <div id="detailedAnalysis" class="detailed-content"></div>
+            </div>
+
+            <!-- Disclaimer Alert -->
+            <div class="alert alert-warning full-width">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <strong>DISCLAIMER:</strong><br>
+                    This analysis is for educational purposes only. It is NOT a medical diagnosis and should NOT be used to make medical decisions. 
+                    Always consult a qualified healthcare professional for proper diagnosis and treatment.
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="result-card full-width">
+                <h3>Next Steps</h3>
+                <div id="recommendations"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="info">
+        <div class="container">
+            <h2>About This Platform</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <i class="fas fa-image"></i>
+                    <h3>Supported Image Types</h3>
+                    <ul>
+                        <li>X-rays and Radiographs</li>
+                        <li>CT Scans</li>
+                        <li>Medical Reports</li>
+                        <li>Medicine/Drug Images</li>
+                        <li>Lab Reports</li>
+                        <li>General Medical Images</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <i class="fas fa-flask"></i>
+                    <h3>Analysis Features</h3>
+                    <ul>
+                        <li>Image Classification</li>
+                        <li>Condition Detection</li>
+                        <li>Medicine Identification</li>
+                        <li>Report Analysis</li>
+                        <li>Health Information</li>
+                        <li>Recommendations</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>AI-Powered Analysis</li>
+                        <li>Instant Results</li>
+                        <li>Educational Content</li>
+                        <li>Secure Upload</li>
+                        <li>Multiple Format Support</li>
+                        <li>User-Friendly Interface</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section class="disclaimer-section" id="disclaimer">
+        <div class="container">
+            <h2>Important Disclaimer & Legal Notice</h2>
+            <div class="disclaimer-content">
+                <h3>⚠️ Educational Use Only</h3>
+                <p>
+                    This Medical Image Analyzer is an AI-based tool provided for <strong>educational purposes only</strong>. 
+                    It is designed to help you understand medical concepts and learn about potential conditions based on image analysis.
+                </p>
+
+                <h3>NOT Medical Diagnosis</h3>
+                <p>
+                    <strong>This system does NOT provide medical diagnosis.</strong> The analysis provided is not a diagnosis 
+                    and should not be treated as such. Only licensed healthcare professionals are qualified to diagnose medical conditions.
+                </p>
+
+                <h3>Consult Healthcare Professionals</h3>
+                <p>
+                    If you suspect you have a medical condition or health concern:
+                </p>
+                <ul>
+                    <li>Schedule an appointment with your doctor or healthcare provider</li>
+                    <li>Seek emergency care if experiencing severe symptoms</li>
+                    <li>Do not delay professional medical evaluation</li>
+                    <li>Provide your healthcare provider with all relevant medical information</li>
+                </ul>
+
+                <h3>Limitations</h3>
+                <p>This tool has the following limitations:</p>
+                <ul>
+                    <li>AI analysis may not be 100% accurate</li>
+                    <li>Cannot account for complete clinical context</li>
+                    <li>Not approved as a medical device</li>
+                    <li>Results depend on image quality</li>
+                    <li>Cannot replace professional examination</li>
+                    <li>May miss important findings</li>
+                </ul>
+
+                <h3>Liability</h3>
+                <p>
+                    We are not liable for any consequences arising from the use of this tool. Use this system at your own risk. 
+                    The creators and operators of this platform disclaim any responsibility for outcomes based on this analysis.
+                </p>
+
+                <h3>Privacy & Data Security</h3>
+                <p>
+                    Your uploaded images are processed for analysis and stored securely. We recommend not uploading images 
+                    containing personally identifiable information.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Medical Image Analyzer. All rights reserved.</p>
+            <p><strong>Disclaimer:</strong> For educational purposes only. Not a substitute for professional medical advice.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
